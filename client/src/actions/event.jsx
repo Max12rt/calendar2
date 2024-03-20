@@ -3,22 +3,26 @@ import { fetchWithToken } from "../fetch/fetch";
 import { prepareEvents } from "../fetch/prepareEvents";
 import types from "../types";
 
+
 export const eventStartLoading = () => {
   return async (dispatch) => {
-    fetchWithToken("events")
-      .then((resp) => resp.json())
-      .then((data) => {
-        if (data.ok) {
-          const events = prepareEvents(data.events);
-          dispatch(eventLoaded(events));
-        } else {if (data.msg) Swal.fire("Error", data.msg, "error");}
-      })
-      .catch((err) => {
-        console.log(err);
-        Swal.fire("Error", "ErrorStartLogin", "error");
-      });
+    try {
+      const resp = await fetchWithToken("events");
+      const data = await resp.json();
+
+      if (data.ok) {
+        const events = prepareEvents(data.events);
+        dispatch(eventLoaded(events));
+      } else if (data.msg) {
+        throw new Error(data.msg);
+      }
+    } catch (error) {
+      console.error("Error loading events:", error);
+      Swal.fire("Error", error.message || "An error occurred", "error");
+    }
   };
 };
+
 
 export const eventStartAddNew = (event, id_calendar) => {
   return async (dispatch, getState) => {

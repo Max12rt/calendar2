@@ -10,15 +10,14 @@ import Alert from "../ui/Alert";
 
 Modal.setAppElement("#root");
 
-const CalendarModal = () => {
+export const CalendarModal = () => {
   const dispatch = useDispatch();
   const { ui, calendar, auth } = useSelector((state) => state);
   const { modalOpen, msgError } = ui;
-  const { userCalendars, activeEvent } = calendar;
+  const { calendars, activeEvent } = calendar;
   const { user } = auth;
 
   const userId = auth.user ? auth.user.id : null;
-  console.log(auth);
 
   const [formValues, setFormValues] = useState({
     title: "",
@@ -167,7 +166,7 @@ const CalendarModal = () => {
                 onChange={handleInputChange}
             >
               <option value="">Select a calendar</option>
-              {userCalendars.map(calendar => (
+              {calendars.map(calendar => (
                   <option key={calendar.id} value={calendar.id}>
                     {calendar.name}
                   </option>

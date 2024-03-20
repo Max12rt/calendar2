@@ -32,7 +32,7 @@ router.get('/user-calendars', async (req, res) => {
     try {
         const userCalendars = await UserCalendar.find({ id_user: userId });
         console.log(userCalendars);
-        res.json(userCalendars); // Sending the list of calendars to the front end
+        res.json(userCalendars);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Помилка отримання календарів користувача' });

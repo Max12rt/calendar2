@@ -66,6 +66,11 @@ const calendarCopy = (state = initialState, action) => {
         ...state,
         calendars: action.payload,
       };
+    case types.addHolidays:
+      return {
+        ...state,
+        holidays: [...action.payload],
+      };
 
     default:
       return state;

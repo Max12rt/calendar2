@@ -1,14 +1,13 @@
 // fetchCalendar.js
 
+import moment from "moment";
 import types from '../types';
 import { setError } from "./ui";
 
 export const fetchUserCalendars = (userId) => {
     return async (dispatch) => {
         try {
-            console.log(userId);
             const response = await fetch(`/api/calendars/user-calendars?userId=${userId}`);
-            console.log(response);
             if (!response.ok) {
                 throw new Error('Failed to fetch user calendars');
             }
@@ -27,3 +26,5 @@ export const setUserCalendars = (calendars) => ({
     type: types.setUserCalendars,
     payload: calendars
 });
+
+
