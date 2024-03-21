@@ -5,12 +5,12 @@ const UserCalendarSchema = new Schema({
     id_user: {
         type: String,
         default: uuidv4,
-        unique: true,
+        //unique: true,
     },
     id_calendar: {
         type: String,
         default: uuidv4,
-        unique: true,
+        //unique: true,
     },
     isMain:{
         type: Boolean

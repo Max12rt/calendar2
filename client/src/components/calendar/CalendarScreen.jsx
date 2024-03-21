@@ -11,7 +11,12 @@ import { uiOpenModal } from "../../actions/ui";
 import { eventClearActive, eventSetActive, eventStartLoading } from "../../actions/event";
 import AddNewBtn from "../../components/ui/AddNewBtn";
 import DeleteBtn from "../../components/ui/DeleteBtn";
-import CalendarEvent from  "./CalendarEvent";
+import {
+  changeCalendarColor,
+  deleteCalendar,
+} from "../../actions/calendar";
+import { fetchUserCalendars } from "../../actions/fetchCalendar";
+import UserCalendarsForm from "../../actions/UserCalendarsForm";
 import Swal from "sweetalert2";
 
 const localizer = momentLocalizer(moment);
@@ -25,6 +30,28 @@ const CalendarScreen = () => {
   const [lastView, setLastView] = useState(localStorage.getItem("lastView") || "month");
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [holidays, setHolidays] = useState([]);
+  const { calendars } = calendar;
+
+  const userId = id;
+  Swal.fire("CalendarScreen     "+ userId);
+
+  const [showUserCalendarsForm, setShowUserCalendarsForm] = useState(false);
+
+  useEffect(() => {
+    dispatch(fetchUserCalendars(userId));
+  }, [dispatch, userId]);
+
+  const handleToggleUserCalendarsForm = () => {
+    setShowUserCalendarsForm((prevState) => !prevState);
+  };
+
+  const handleChangeColor = (calendarId, color) => {
+    dispatch(changeCalendarColor(calendarId, color));
+  };
+
+  const handleDeleteCalendar = (calendarId) => {
+    dispatch(deleteCalendar(calendarId));
+  };
 
   const HolidayEvent = ({ event }) => {
     const { title } = event;
@@ -94,14 +121,15 @@ const CalendarScreen = () => {
     setIsCreateModalOpen(false);
   };
 
-  const handleCreateCalendar = async ({ name, description, color }) => {
+  const handleCreateCalendar = async ({ name, description, color}) => {
     try {
+      Swal.fire('/createdescription  ' + userId);
       const response = await fetch('/api/calendars/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, description, color }),
+        body: JSON.stringify({ name, description, color, userId }),
       });
 
       if (!response.ok) {
@@ -109,6 +137,7 @@ const CalendarScreen = () => {
       }
 
       const data = await response.json();
+      console.error(userId);
       console.log('Calendar created successfully:', data);
     } catch (error) {
       console.error('Error creating calendar:', error.message);
@@ -167,6 +196,17 @@ const CalendarScreen = () => {
   return (
       <div className="calendar-screen">
         <Navbar />
+        <button onClick={handleToggleUserCalendarsForm}>
+          {showUserCalendarsForm ? "Hide Calendars" : "Show Calendars"}
+        </button>
+
+        {showUserCalendarsForm && (
+            <UserCalendarsForm
+                calendars={calendars}
+                onChangeColor={handleChangeColor}
+                onDelete={handleDeleteCalendar}
+            />
+        )}
         <div className="calendar-container">
           <div className="calendar">
             <Calendar

@@ -15,9 +15,9 @@ export const CalendarModal = () => {
   const { ui, calendar, auth } = useSelector((state) => state);
   const { modalOpen, msgError } = ui;
   const { calendars, activeEvent } = calendar;
-  const { user } = auth;
+  const { id } = auth;
 
-  const userId = auth.user ? auth.user.id : null;
+  const userId = id;
 
   const [formValues, setFormValues] = useState({
     title: "",
