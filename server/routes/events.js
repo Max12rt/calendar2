@@ -1,8 +1,4 @@
-    /*
-      Events routes -> /api/events
-    */
-
-    const { Router } = require("express");
+const { Router } = require("express");
     const { check } = require("express-validator");
     const {getEvents, createEvent, updateEvent, deleteEvent,} = require("../controllers/events");
     const {eventExistsById, isEventOwner,} = require("../helpers/databaseValidators");

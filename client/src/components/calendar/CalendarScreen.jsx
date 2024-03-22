@@ -1,3 +1,4 @@
+import UserCalendarsForm from "../../actions/UserCalendarsForm";
 import React, { useEffect, useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
@@ -11,12 +12,8 @@ import { uiOpenModal } from "../../actions/ui";
 import { eventClearActive, eventSetActive, eventStartLoading } from "../../actions/event";
 import AddNewBtn from "../../components/ui/AddNewBtn";
 import DeleteBtn from "../../components/ui/DeleteBtn";
-import {
-  changeCalendarColor,
-  deleteCalendar,
-} from "../../actions/calendar";
+import { changeCalendarColor, deleteCalendar } from "../../actions/calendar";
 import { fetchUserCalendars } from "../../actions/fetchCalendar";
-import UserCalendarsForm from "../../actions/UserCalendarsForm";
 import Swal from "sweetalert2";
 
 const localizer = momentLocalizer(moment);
@@ -33,13 +30,54 @@ const CalendarScreen = () => {
   const { calendars } = calendar;
 
   const userId = id;
-  Swal.fire("CalendarScreen     "+ userId);
 
   const [showUserCalendarsForm, setShowUserCalendarsForm] = useState(false);
 
   useEffect(() => {
     dispatch(fetchUserCalendars(userId));
+    fetchHolidayEvents(); // Fetch holidays on component mount
   }, [dispatch, userId]);
+
+  const fetchHolidayEvents = async () => {
+    try {
+      const response = await fetch("/api/holiday/holidays");
+      //Swal.fire("response " + response);
+      if (!response.ok) {
+        throw new Error("Failed to fetch holiday data");
+      }
+      const data = await response.json();
+      //Swal.fire("responsedata " + data);
+      const holidayEvents = prepareHolidayEvents(data);
+      //Swal.fire("responseholidayEvents " + holidayEvents);
+      setHolidays(holidayEvents);
+    } catch (error) {
+      console.error("Error fetching holiday data:", error);
+    }
+  };
+
+
+  const prepareHolidayEvents = (data) => {
+    const holidayEvents = [];
+    for (const year in data) {
+      for (const month in data[year]) {
+        for (const day in data[year][month]) {
+          const isWorking = data[year][month][day].isWorking;
+          if (isWorking === 2) {
+            const holidayDate = moment(`${year}-${month}-${day}`, 'YYYY-MM-DD').toDate();
+            const holidayEvent = {
+              title: 'Holiday',
+              start: holidayDate,
+              end: holidayDate,
+              isHoliday: true
+            };
+            holidayEvents.push(holidayEvent);
+          }
+        }
+      }
+    }
+    Swal.fire("holidayEvents " + holidayEvents);
+    return holidayEvents;
+  };
 
   const handleToggleUserCalendarsForm = () => {
     setShowUserCalendarsForm((prevState) => !prevState);
@@ -68,51 +106,6 @@ const CalendarScreen = () => {
     fetchHolidayEvents();
   }, [dispatch]);
 
-  const fetchHolidayEvents = async () => {
-    try {
-      const response = await fetch("/api/calendar/holidays");
-      if (!response.ok) {
-        const text = await response.text();
-        console.error("Error response:", text);
-        throw new Error("Failed to fetch holiday data");
-      }
-
-      const data = await response.json();
-      console.log("Data:", data);
-
-      const holidayEvents = prepareHolidayEvents(data);
-      setHolidays(holidayEvents);
-    } catch (error) {
-      console.error("Error fetching holiday data:", error);
-    }
-  };
-
-
-
-  const prepareHolidayEvents = (data) => {
-    const holidayEvents = [];
-    console.log("holidayEvents"+holidayEvents);
-    for (const year in data.data) {
-      for (const month in data.data[year]) {
-        for (const day in data.data[year][month]) {
-          const isWorking = data.data[year][month][day].isWorking;
-          if (isWorking === 2) {
-            const holidayDate = moment(`${year}-${month}-${day}`, 'YYYY-MM-DD').toDate();
-            const holidayEvent = {
-              title: 'Holiday',
-              start: holidayDate,
-              end: holidayDate,
-              isHoliday: true
-            };
-            holidayEvents.push(holidayEvent);
-          }
-        }
-      }
-    }
-    console.log(holidayEvents);
-    return holidayEvents;
-  };
-
   const openCreateModal = () => {
     setIsCreateModalOpen(true);
   };
@@ -123,7 +116,6 @@ const CalendarScreen = () => {
 
   const handleCreateCalendar = async ({ name, description, color}) => {
     try {
-      Swal.fire('/createdescription  ' + userId);
       const response = await fetch('/api/calendars/create', {
         method: 'POST',
         headers: {
@@ -137,7 +129,6 @@ const CalendarScreen = () => {
       }
 
       const data = await response.json();
-      console.error(userId);
       console.log('Calendar created successfully:', data);
     } catch (error) {
       console.error('Error creating calendar:', error.message);

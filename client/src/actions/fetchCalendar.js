@@ -8,7 +8,7 @@ import UserCalendarsForm from "./UserCalendarsForm";
 export const fetchUserCalendars = (userId) => {
     return async (dispatch) => {
         try {
-            console.error("userIdfetchUserCalendars       " + userId);
+            //console.error("userIdfetchUserCalendars       " + userId);
             const response = await fetch(`/api/calendars/user-calendars?userId=${userId}`);
             //Swal.fire(response);
             console.error("response" + response);
@@ -17,7 +17,7 @@ export const fetchUserCalendars = (userId) => {
             }
 
             const data = await response.json();
-            console.error("data" + data);
+            //console.error("data" + data);
 
             dispatch(setUserCalendars(data));
         } catch (error) {
@@ -54,4 +54,5 @@ export const changeCalendarName = (calendarId, name) => {
     };
 };
 
-export default { changeCalendarName, fetchUserCalendars };
+
+//export default { changeCalendarName, fetchUserCalendars };

@@ -25,7 +25,7 @@ app.use(express.json());
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/events", require("./routes/events.js"));
 app.use("/api/calendars", require("./routes/calendars"));
-app.use('/api/calendar/holiday', require('./routes/holidays'));
+app.use("/api/holiday", require("./routes/holidays"));
 
 
 // Serve static files from the client build directory
