@@ -33,7 +33,7 @@ export const changeCalendarName = (calendarId, name) => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ name }), // Передавайте лише рядок name
+                body: JSON.stringify({ name }),
             });
             const data = await response.json();
             if (response.ok) {

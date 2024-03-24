@@ -8,6 +8,7 @@ import { eventClearActive, eventStartAddNew, eventStartUpdate } from "../../acti
 import { uiCloseModal } from "../../actions/ui";
 import Alert from "../ui/Alert";
 
+
 Modal.setAppElement("#root");
 
 export const CalendarModal = () => {
@@ -25,7 +26,12 @@ export const CalendarModal = () => {
     start: moment().minutes(0).seconds(0).add(1, "hour").toDate(),
     end: moment().minutes(0).seconds(0).add(2, "hours").toDate(),
     selectedCalendar: "",
-    type: ""
+    type: "",
+    // Додаткові поля для різних типів подій
+    expectedResults: "", // Для типу "Meeting"
+    interestArea: "",   // Для типу "Appointment"
+    giftIdeas: "",      // Для типу "Birthday"
+    traditions: ""      // Для типу "Holiday"
   });
 
   useEffect(() => {
@@ -40,7 +46,12 @@ export const CalendarModal = () => {
         start: new Date(activeEvent.start),
         end: new Date(activeEvent.end),
         selectedCalendar: activeEvent.id_calendar,
-        type: activeEvent.type
+        type: activeEvent.type,
+        // Заповнення додаткових полів для різних типів подій при редагуванні
+        expectedResults: activeEvent.expectedResults || "",
+        interestArea: activeEvent.interestArea || "",
+        giftIdeas: activeEvent.giftIdeas || "",
+        traditions: activeEvent.traditions || ""
       });
     } else {
       setFormValues({
@@ -49,12 +60,17 @@ export const CalendarModal = () => {
         start: moment().minutes(0).seconds(0).add(1, "hour").toDate(),
         end: moment().minutes(0).seconds(0).add(2, "hours").toDate(),
         selectedCalendar: "",
-        type: ""
+        type: "",
+        // Початкові значення додаткових полів
+        expectedResults: "",
+        interestArea: "",
+        giftIdeas: "",
+        traditions: ""
       });
     }
   }, [activeEvent]);
 
-  const { title, notes, start, end, selectedCalendar, type } = formValues;
+  const { title, notes, start, end, selectedCalendar, type, expectedResults, interestArea, giftIdeas, traditions } = formValues;
 
   const handleInputChange = (e) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value });
@@ -156,6 +172,68 @@ export const CalendarModal = () => {
               <option value="holiday">Holiday</option>
             </select>
           </div>
+
+          {type === "meeting" && (
+              <div className="form__field">
+                <label htmlFor="expectedResults" className="form__label">Expected Results</label>
+                <textarea
+                    type="text"
+                    className="form__text-area"
+                    rows="3"
+                    id="expectedResults"
+                    name="expectedResults"
+                    placeholder="Expected results"
+                    value={expectedResults}
+                    onChange={handleInputChange}
+                ></textarea>
+              </div>
+          )}
+          {type === "appointment" && (
+              <div className="form__field">
+                <label htmlFor="interestArea" className="form__label">Interest Area</label>
+                <input
+                    autoComplete="off"
+                    type="text"
+                    className="form__input"
+                    id="interestArea"
+                    name="interestArea"
+                    placeholder="Interest area"
+                    value={interestArea}
+                    onChange={handleInputChange}
+                />
+              </div>
+          )}
+          {type === "birthday" && (
+              <div className="form__field">
+                <label htmlFor="giftIdeas" className="form__label">Gift Ideas</label>
+                <textarea
+                    type="text"
+                    className="form__text-area"
+                    rows="3"
+                    id="giftIdeas"
+                    name="giftIdeas"
+                    placeholder="Gift ideas"
+                    value={giftIdeas}
+                    onChange={handleInputChange}
+                ></textarea>
+              </div>
+          )}
+          {type === "holiday" && (
+              <div className="form__field">
+                <label htmlFor="traditions" className="form__label">Traditions & Customs</label>
+                <textarea
+                    type="text"
+                    className="form__text-area"
+                    rows="3"
+                    id="traditions"
+                    name="traditions"
+                    placeholder="Traditions & customs"
+                    value={traditions}
+                    onChange={handleInputChange}
+                ></textarea>
+              </div>
+          )}
+
           <div className="form__field">
             <label htmlFor="selectedCalendar" className="form__label">Select Calendar</label>
             <select
@@ -183,3 +261,5 @@ export const CalendarModal = () => {
 };
 
 export default CalendarModal;
+
+

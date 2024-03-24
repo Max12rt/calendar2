@@ -1,4 +1,3 @@
-import UserCalendarsForm from "../../actions/UserCalendarsForm";
 import React, { useEffect, useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
@@ -12,10 +11,11 @@ import { uiOpenModal } from "../../actions/ui";
 import { eventClearActive, eventSetActive, eventStartLoading } from "../../actions/event";
 import AddNewBtn from "../../components/ui/AddNewBtn";
 import DeleteBtn from "../../components/ui/DeleteBtn";
-import { changeCalendarColor, deleteCalendar } from "../../actions/calendar";
+import { changeCalendarColor, deleteCalendar, changeCalendarName } from "../../actions/calendar";
 import { fetchUserCalendars } from "../../actions/fetchCalendar";
-import { changeCalendarName } from "../../actions/calendar";
+import UserCalendarsForm from "../../actions/UserCalendarsForm";
 import Swal from "sweetalert2";
+import { fetchNoToken } from "../../fetch/fetch";
 
 const localizer = momentLocalizer(moment);
 
@@ -36,20 +36,19 @@ const CalendarScreen = () => {
 
   useEffect(() => {
     dispatch(fetchUserCalendars(userId));
-    fetchHolidayEvents(); // Fetch holidays on component mount
+    fetchHolidayEvents();
   }, [dispatch, userId]);
 
   const fetchHolidayEvents = async () => {
     try {
-      const response = await fetch("/api/holiday/holidays");
-      //Swal.fire("response " + response);
+
+      const response = await fetchNoToken("holiday/holidays");
+      //Swal.fire(response.body);
       if (!response.ok) {
         throw new Error("Failed to fetch holiday data");
       }
       const data = await response.json();
-      //Swal.fire("responsedata " + data);
       const holidayEvents = prepareHolidayEvents(data);
-      //Swal.fire("responseholidayEvents " + holidayEvents);
       setHolidays(holidayEvents);
     } catch (error) {
       console.error("Error fetching holiday data:", error);
@@ -76,7 +75,6 @@ const CalendarScreen = () => {
         }
       }
     }
-    Swal.fire("holidayEvents " + holidayEvents);
     return holidayEvents;
   };
 
@@ -102,11 +100,6 @@ const CalendarScreen = () => {
     );
   };
 
-  useEffect(() => {
-    dispatch(eventStartLoading());
-    fetchHolidayEvents();
-  }, [dispatch]);
-
   const openCreateModal = () => {
     setIsCreateModalOpen(true);
   };
@@ -115,7 +108,35 @@ const CalendarScreen = () => {
     setIsCreateModalOpen(false);
   };
 
-  const handleCreateCalendar = async ({ name, description, color}) => {
+  const handleCreateCalendar = async ({ name, description, color }) => {
+    try {
+      const response = await fetch('/api/calendars/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, description, color, userId }),
+      });
+      Swal.fire(response);
+
+      if (!response.ok) {
+        throw new Error('Failed to create calendar');
+      }
+
+      const data = await response.json();
+      console.log('Calendar created successfully:', data);
+
+      const calendarId = data.calendar.id;
+      const calendarName = data.calendar.name;
+
+      handleCreateCalendarWithDBName({ name: calendarName, description, color, userId });
+    } catch (error) {
+      console.error('Error creating calendar:', error.message);
+    }
+  };
+
+
+  const handleCreateCalendarWithDBName = async ({ name, description, color, userId }) => {
     try {
       const response = await fetch('/api/calendars/create', {
         method: 'POST',
@@ -163,10 +184,10 @@ const CalendarScreen = () => {
       dispatch(uiOpenModal());
     }
   };
-  const handleChangeName = (calendar, name) => {
-    dispatch(changeCalendarName(calendar, name));
-  };
 
+  const handleChangeName = (calendarId, name) => {
+    dispatch(changeCalendarName(calendarId, name));
+  };
 
   const eventStyleGetter = (event, start, end, isSelected) => {
     const userId = event.user?.id;
@@ -195,7 +216,6 @@ const CalendarScreen = () => {
         <button onClick={handleToggleUserCalendarsForm}>
           {showUserCalendarsForm ? "Hide Calendars" : "Show Calendars"}
         </button>
-
         {showUserCalendarsForm && (
             <UserCalendarsForm
                 calendars={calendars}
@@ -225,14 +245,13 @@ const CalendarScreen = () => {
           <CalendarModal />
           <AddNewBtn />
         </div>
-
         <div className="button-container">
           <button className="create-button" onClick={openCreateModal}>
             Create Calendar
           </button>
         </div>
-
-        {isCreateModalOpen && (
+        {isCreateModalOpen
+            && (
             <div className="form-container-under-calendar">
               <CreateCalendarForm
                   isOpen={isCreateModalOpen}

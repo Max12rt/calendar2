@@ -55,4 +55,4 @@ export const changeCalendarName = (calendarId, name) => {
 };
 
 
-//export default { changeCalendarName, fetchUserCalendars };
+export default { changeCalendarName, fetchUserCalendars };

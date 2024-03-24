@@ -1,3 +1,5 @@
+// calendar.js
+
 const { Router } = require("express");
 const router = Router();
 const createCalendar = require('../controllers/calendar');
@@ -6,7 +8,6 @@ const Calendar = require('../models/Calendars');
 
 router.post('/create', async (req, res) => {
     const { name, description, color, userId } = req.body;
-    console.log('/create' + userId);
 
     try {
         const { calendar, userCalendar } = await createCalendar({ name, description, color, userId });
@@ -26,6 +27,7 @@ router.put("/:calendarId/color", async (req, res) => {
             { color },
             { new: true }
         );
+        console.log("/:calendarId/color " + updatedCalendar);
         res.json(updatedCalendar);
     } catch (error) {
         console.error("Error updating calendar color:", error);
@@ -37,16 +39,12 @@ router.put("/:calendarId/name", async (req, res) => {
     const { name } = req.body;
     const { calendarId } = req.params;
     try {
-        const calendar = await Calendar.findById(calendarId);
-        if (!calendar) {
-            throw new Error("Calendar not found");
-        }
-
-        const updatedCalendar = await UserCalendar.findOneAndUpdate(
-            { id_calendar: calendarId },
-            { name: calendar.name },
+        const updatedCalendar = await Calendar.findByIdAndUpdate(
+            calendarId,
+            { name },
             { new: true }
         );
+        console.log("/:calendarId/name " + updatedCalendar);
         res.json(updatedCalendar);
     } catch (error) {
         console.error("Error updating calendar name:", error);
@@ -65,30 +63,40 @@ router.delete("/:calendarId", async (req, res) => {
     }
 });
 
-
 router.get('/calendars', async (req, res) => {
     const { userId } = req.query;
     try {
         const userCalendars = await UserCalendar.find({ id_user: userId });
-        console.log(userCalendars);
         res.json(userCalendars);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Помилка отримання календарів користувача' });
+        res.status(500).json({ error: 'Error getting user calendars' });
     }
 });
 
 router.get('/user-calendars', async (req, res) => {
     const { userId } = req.query;
     try {
-        console.log("userId user-calendars: ", userId.toString());
-        const userCalendars = await UserCalendar.find({ id_user: userId.toString() });
-        console.log("userCalendars: ", userCalendars);
-        res.json(userCalendars);
+        const userCalendars = await UserCalendar.find({ id_user: userId }).populate({
+            path: 'id_calendar',
+            select: 'name' // Вибираємо тільки поле "name" з календаря
+        });
+
+        // Перетворюємо дані у потрібний формат
+        const formattedUserCalendars = userCalendars.map(userCalendar => {
+            return {
+                ...userCalendar.toObject(), // Отримуємо об'єкт UserCalendar
+                calendarName: userCalendar.id_calendar.name // Додаємо поле "calendarName" з ім'ям календаря
+            };
+        });
+
+        res.json(formattedUserCalendars); // Відправляємо відформатовані дані на фронтенд
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Помилка отримання календарів користувача' });
+        res.status(500).json({ error: 'Error getting user calendars' });
     }
 });
+
+
 
 module.exports = router;

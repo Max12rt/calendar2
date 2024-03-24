@@ -1,11 +1,15 @@
+import Swal from "sweetalert2";
+
 const Url = process.env.REACT_APP_API_URL;
 
 export const fetchNoToken = (endpoint, data, method = "GET") => {
-  const url = `${Url}/${endpoint}`; // localhost:5000/api/events
-
+  const url = `${Url}/${endpoint}`;
+  Swal.fire(url);
   if (method === "GET") {
+    Swal.fire("GET");
     return fetch(url);
   } else {
+    Swal.fire("Post");
     return fetch(url, {method,
       headers: {"Content-Type": "application/json",},
       body: JSON.stringify(data)});
