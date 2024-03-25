@@ -28,7 +28,7 @@ const createCalendar = (calendar) => ({
 export const changeCalendarName = (calendarId, name) => {
     return async (dispatch) => {
         try {
-            const response = await fetch(`/api/calendars/${calendarId}/name`, {
+            const response = await fetch(`http://localhost:5002/api/calendars/${calendarId}/name`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -51,7 +51,7 @@ export const changeCalendarName = (calendarId, name) => {
 export const changeCalendarColor = (calendarId, color) => {
     return async (dispatch) => {
         try {
-            const response = await fetch(`/api/calendars/${calendarId}/color`, {
+            const response = await fetch(`http://localhost:5002/api/calendars/${calendarId}/color`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -73,7 +73,7 @@ export const changeCalendarColor = (calendarId, color) => {
 export const deleteCalendar = (calendarId) => {
     return async (dispatch) => {
         try {
-            const response = await fetch(`/api/calendars/${calendarId}`, {
+            const response = await fetch(`http://localhost:5002/api/calendars/${calendarId}`, {
                 method: "DELETE",
             });
             const data = await response.json();

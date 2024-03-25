@@ -25,7 +25,7 @@ const getEvents = async (req, res) => {
             });
         }
         console.log("4" + " " +user.id);
-        const events = await Event.find({ user });
+        const events = await Event.find({ creator_user_id: user.id });
         console.log("4" + " " +events);
         return res.json({
             ok: true,
@@ -48,7 +48,7 @@ const createEvent = async (req, res) => {
         start,
         end,
         notes,
-        creator_user_id: req.params.id_user,
+        creator_user_id: req.id,
     });
     try {
         await event.save();

@@ -1,24 +1,18 @@
-import moment from "moment";
+import { fetchWithToken } from '../fetch/fetch';
 import types from '../types';
 import { setError } from "./ui";
 import Swal from "sweetalert2";
 import { updateCalendarName } from './calendar';
-import UserCalendarsForm from "./UserCalendarsForm";
 
 export const fetchUserCalendars = (userId) => {
     return async (dispatch) => {
         try {
-            //console.error("userIdfetchUserCalendars       " + userId);
-            const response = await fetch(`/api/calendars/user-calendars?userId=${userId}`);
-            //Swal.fire(response);
-            console.error("response" + response);
+            const response = await fetchWithToken(`calendars/user-calendars?userId=${userId}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch user calendars');
             }
 
             const data = await response.json();
-            //console.error("data" + data);
-
             dispatch(setUserCalendars(data));
         } catch (error) {
             console.error("Error fetching user calendars:", error);
@@ -32,10 +26,10 @@ export const setUserCalendars = (calendars) => ({
     payload: calendars
 });
 
-export const changeCalendarName = (calendarId, name) => {
+export const changeCalendarNameApi = (calendarId, name) => {
     return async (dispatch) => {
         try {
-            const response = await fetch(`/api/calendars/${calendarId}/name`, {
+            const response = await fetch(`http://localhost:5002/api/calendars/${calendarId}/name`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -55,4 +49,4 @@ export const changeCalendarName = (calendarId, name) => {
 };
 
 
-export default { changeCalendarName, fetchUserCalendars };
+export default { changeCalendarNameApi, fetchUserCalendars };

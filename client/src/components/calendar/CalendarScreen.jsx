@@ -13,7 +13,7 @@ import AddNewBtn from "../../components/ui/AddNewBtn";
 import DeleteBtn from "../../components/ui/DeleteBtn";
 import { changeCalendarColor, deleteCalendar, changeCalendarName } from "../../actions/calendar";
 import { fetchUserCalendars } from "../../actions/fetchCalendar";
-import UserCalendarsForm from "../../actions/UserCalendarsForm";
+import { UserCalendarsForm, UserCalendarsForm2 } from "../../actions/UserCalendarsForm";
 import Swal from "sweetalert2";
 import { fetchNoToken } from "../../fetch/fetch";
 
@@ -29,10 +29,14 @@ const CalendarScreen = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [holidays, setHolidays] = useState([]);
   const { calendars } = calendar;
+  const [holidayEvents, setHolidayEvents] = useState([]);
 
   const userId = id;
-
   const [showUserCalendarsForm, setShowUserCalendarsForm] = useState(false);
+  const [showUserCalendarsForm2, setShowUserCalendarsForm2] = useState(false); // Corrected variable name
+  const [clickCount, setClickCount] = useState(0);
+
+  const [selectedCalendarDetails, setSelectedCalendarDetails] = useState(null);
 
   useEffect(() => {
     dispatch(fetchUserCalendars(userId));
@@ -41,13 +45,11 @@ const CalendarScreen = () => {
 
   const fetchHolidayEvents = async () => {
     try {
-
-      const response = await fetchNoToken("holiday/holidays");
-      //Swal.fire(response.body);
-      if (!response.ok) {
+      const res = await fetch('http://localhost:5002/api/holiday/holidays');
+      if (!res.ok) {
         throw new Error("Failed to fetch holiday data");
       }
-      const data = await response.json();
+      const data = await res.json();
       const holidayEvents = prepareHolidayEvents(data);
       setHolidays(holidayEvents);
     } catch (error) {
@@ -55,17 +57,16 @@ const CalendarScreen = () => {
     }
   };
 
-
   const prepareHolidayEvents = (data) => {
     const holidayEvents = [];
-    for (const year in data) {
-      for (const month in data[year]) {
-        for (const day in data[year][month]) {
-          const isWorking = data[year][month][day].isWorking;
-          if (isWorking === 2) {
+    for (const year in data.data) {
+      for (const month in data.data[year]) {
+        for (const day in data.data[year][month]) {
+          const holidayInfo = data.data[year][month][day];
+          if (holidayInfo.holiday) { // Check if it's a holiday
             const holidayDate = moment(`${year}-${month}-${day}`, 'YYYY-MM-DD').toDate();
             const holidayEvent = {
-              title: 'Holiday',
+              title: holidayInfo.holiday,
               start: holidayDate,
               end: holidayDate,
               isHoliday: true
@@ -78,10 +79,6 @@ const CalendarScreen = () => {
     return holidayEvents;
   };
 
-  const handleToggleUserCalendarsForm = () => {
-    setShowUserCalendarsForm((prevState) => !prevState);
-  };
-
   const handleChangeColor = (calendarId, color) => {
     dispatch(changeCalendarColor(calendarId, color));
   };
@@ -91,11 +88,12 @@ const CalendarScreen = () => {
   };
 
   const HolidayEvent = ({ event }) => {
-    const { title } = event;
+    const { title, holiday } = event;
 
     return (
         <div>
           <strong>{title}</strong>
+          {holiday && <p>{holiday}</p>}
         </div>
     );
   };
@@ -135,7 +133,6 @@ const CalendarScreen = () => {
     }
   };
 
-
   const handleCreateCalendarWithDBName = async ({ name, description, color, userId }) => {
     try {
       const response = await fetch('/api/calendars/create', {
@@ -160,7 +157,6 @@ const CalendarScreen = () => {
   const onDoubleClick = (e) => {
     dispatch(uiOpenModal());
   };
-
   const onSelect = (e) => {
     dispatch(eventSetActive(e));
   };
@@ -184,6 +180,11 @@ const CalendarScreen = () => {
       dispatch(uiOpenModal());
     }
   };
+
+  useEffect(() => {
+    dispatch(eventStartLoading());
+    fetchHolidayEvents();
+  }, [dispatch]);
 
   const handleChangeName = (calendarId, name) => {
     dispatch(changeCalendarName(calendarId, name));
@@ -210,19 +211,87 @@ const CalendarScreen = () => {
     return { style };
   };
 
+  const handleToggleUserCalendarsForm = () => {
+    setClickCount(prevCount => prevCount + 1);
+    setShowUserCalendarsForm(true);
+    if (clickCount === 1) {
+      setShowUserCalendarsForm2(false);
+    }
+    if (clickCount === 2) {
+      setShowUserCalendarsForm(false);
+      setShowUserCalendarsForm2(false);
+      setClickCount(0);
+    }
+  };
+
+  const handleShowCalendarDetails = async (calendarId) => {
+    try {
+      const response = await fetch(`http://localhost:5002/api/calendars/details/${calendarId}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch calendar details");
+      }
+      const data = await response.json();
+      setSelectedCalendarDetails(data);
+    } catch (error) {
+      console.error("Error fetching calendar details:", error);
+    }
+  };
+
+  const handleRemoveAccess = async (userId, calendarId) => {
+    try {
+      const response = await fetch(`http://localhost:5002/api/calendars/unlinq/${userId}/${calendarId}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error("Failed to remove user access");
+      }
+      // Reload user calendars after removing access
+      dispatch(fetchUserCalendars(userId));
+    } catch (error) {
+      console.error("Error removing user access:", error);
+    }
+  };
+
   return (
       <div className="calendar-screen">
         <Navbar />
         <button onClick={handleToggleUserCalendarsForm}>
-          {showUserCalendarsForm ? "Hide Calendars" : "Show Calendars"}
+          {clickCount === 0 ? 'Show Form 1' : clickCount === 1 ? 'Show Form 2' : 'Hide Forms'}
         </button>
         {showUserCalendarsForm && (
-            <UserCalendarsForm
-                calendars={calendars}
-                onChangeColor={handleChangeColor}
-                onDelete={handleDeleteCalendar}
-                onChangeName={handleChangeName}
-            />
+            <div>
+              <UserCalendarsForm
+                  calendars={calendars}
+                  handleShowCalendarDetails={handleShowCalendarDetails}
+              />
+            </div>
+        )}
+        {showUserCalendarsForm2 && (
+            <div>
+              {selectedCalendarDetails && (
+                  <div className="calendar-details">
+                    <p><strong>Calendar Name:</strong> {selectedCalendarDetails.calendarName}</p>
+                    <h3>User Access:</h3>
+                    <ul>
+                      {selectedCalendarDetails.userAccess.map(user => (
+                          <li key={user.id_user}>
+                            <p><strong>User Name:</strong> {user.userName}</p>
+                            <p><strong>Access Level:</strong> {user.isMain ? 'Creator' : 'User'}</p>
+                            <p><strong>Access Rights:</strong></p>
+
+                            <ul>
+                              <li>Create: {user.isCreate ? 'Yes' : 'No'}</li>
+                              <li>Edit: {user.isEdit ? 'Yes' : 'No'}</li>
+                              <li>Access: {user.isAccess ? 'Yes' : 'No'}</li>
+                              <li>Delete: {user.isDelete ? 'Yes' : 'No'}</li>
+                            </ul>
+                            {!user.isMain && <button onClick={() => handleRemoveAccess(user.id_user, user.id_calendar)}>Remove Access</button>}
+                          </li>
+                      ))}
+                    </ul>
+                  </div>
+              )}
+            </div>
         )}
         <div className="calendar-container">
           <div className="calendar">
@@ -250,8 +319,7 @@ const CalendarScreen = () => {
             Create Calendar
           </button>
         </div>
-        {isCreateModalOpen
-            && (
+        {isCreateModalOpen && (
             <div className="form-container-under-calendar">
               <CreateCalendarForm
                   isOpen={isCreateModalOpen}
@@ -265,3 +333,5 @@ const CalendarScreen = () => {
 };
 
 export default CalendarScreen;
+
+

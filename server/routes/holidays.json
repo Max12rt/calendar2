@@ -1,759 +1,83 @@
 {
   "data": {
-    "2015": {
+    "2024": {
       "1": {
         "1": {
-          "isWorking": 2
+          "holiday": "Новий Рік"
         },
         "2": {
-          "isWorking": 2
+          "holiday": "Новий Рік"
         },
         "5": {
-          "isWorking": 2
+          "holiday": "Різдво"
         },
         "6": {
-          "isWorking": 2
+          "holiday": "Різдво"
         },
         "7": {
-          "isWorking": 2
+          "holiday": "Різдво"
         },
         "8": {
-          "isWorking": 2
+          "holiday": "Різдво"
         },
         "9": {
-          "isWorking": 2
+          "holiday": "Різдво"
         }
       },
       "2": {
         "20": {
-          "isWorking": 3
+          "holiday": "День захисника України"
         },
         "23": {
-          "isWorking": 2
+          "isWorking": 0
         }
       },
       "3": {
-        "6": {
-          "isWorking": 3
+        "8": {
+          "holiday": "Міжнародний жіночий день"
         },
         "9": {
-          "isWorking": 2
+          "isWorking": 0
         }
       },
       "4": {
         "30": {
-          "isWorking": 3
+          "holiday": "День перемоги"
         }
       },
       "5": {
         "1": {
-          "isWorking": 2
+          "holiday": "День міжнародної солідарності трудящих"
         },
         "4": {
-          "isWorking": 2
+          "holiday": "День пам'яті та примирення"
         },
         "8": {
-          "isWorking": 3
+          "holiday": "День перемоги"
         },
         "11": {
-          "isWorking": 2
+          "holiday": "Трійця"
         }
       },
       "6": {
         "11": {
-          "isWorking": 3
+          "holiday": "Трійця"
         },
         "12": {
-          "isWorking": 2
+          "isWorking": 0
         }
       },
       "11": {
         "3": {
-          "isWorking": 3
+          "holiday": "День соборності України"
         },
         "4": {
-          "isWorking": 2
+          "holiday": "День української писемності та мови"
         }
       },
       "12": {
         "31": {
-          "isWorking": 3
-        }
-      }
-    },
-    "2016": {
-      "1": {
-        "1": {
-          "isWorking": 2
-        },
-        "4": {
-          "isWorking": 2
-        },
-        "5": {
-          "isWorking": 2
-        },
-        "6": {
-          "isWorking": 2
-        },
-        "7": {
-          "isWorking": 2
-        },
-        "8": {
-          "isWorking": 2
-        }
-      },
-      "2": {
-        "20": {
-          "isWorking": 3
-        },
-        "22": {
-          "isWorking": 2
-        },
-        "23": {
-          "isWorking": 2
-        }
-      },
-      "3": {
-        "7": {
-          "isWorking": 2
-        },
-        "8": {
-          "isWorking": 2
-        }
-      },
-      "5": {
-        "2": {
-          "isWorking": 2
-        },
-        "3": {
-          "isWorking": 2
-        },
-        "9": {
-          "isWorking": 2
-        }
-      },
-      "6": {
-        "13": {
-          "isWorking": 2
-        }
-      },
-      "11": {
-        "3": {
-          "isWorking": 3
-        },
-        "4": {
-          "isWorking": 2
-        }
-      }
-    },
-    "2017": {
-      "1": {
-        "2": {
-          "isWorking": 2
-        },
-        "3": {
-          "isWorking": 2
-        },
-        "4": {
-          "isWorking": 2
-        },
-        "5": {
-          "isWorking": 2
-        },
-        "6": {
-          "isWorking": 2
-        }
-      },
-      "2": {
-        "22": {
-          "isWorking": 3
-        },
-        "23": {
-          "isWorking": 2
-        },
-        "24": {
-          "isWorking": 2
-        }
-      },
-      "3": {
-        "7": {
-          "isWorking": 3
-        },
-        "8": {
-          "isWorking": 2
-        }
-      },
-      "5": {
-        "1": {
-          "isWorking": 2
-        },
-        "8": {
-          "isWorking": 2
-        },
-        "9": {
-          "isWorking": 2
-        }
-      },
-      "6": {
-        "12": {
-          "isWorking": 2
-        }
-      }
-    },
-    "2018": {
-      "1": {
-        "1": {
-          "isWorking": 2
-        },
-        "2": {
-          "isWorking": 2
-        },
-        "3": {
-          "isWorking": 2
-        },
-        "4": {
-          "isWorking": 2
-        },
-        "7": {
-          "isWorking": 2
-        },
-        "8": {
-          "isWorking": 2
-        }
-      },
-      "2": {
-        "22": {
-          "isWorking": 3
-        },
-        "23": {
-          "isWorking": 2
-        }
-      },
-      "3": {
-        "7": {
-          "isWorking": 3
-        },
-        "10": {
-          "isWorking": 2
-        }
-      },
-      "4": {
-        "30": {
-          "isWorking": 3
-        }
-      },
-      "5": {
-        "1": {
-          "isWorking": 2
-        },
-        "2": {
-          "isWorking": 2
-        },
-        "4": {
-          "isWorking": 0
-        },
-        "8": {
-          "isWorking": 3
-        },
-        "9": {
-          "isWorking": 2
-        }
-      },
-      "6": {
-        "7": {
-          "isWorking": 0
-        },
-        "11": {
-          "isWorking": 3
-        },
-        "12": {
-          "isWorking": 2
-        },
-        "13": {
-          "isWorking": 2
-        }
-      },
-      "11": {
-        "1": {
-          "isWorking": 3
-        },
-        "3": {
-          "isWorking": 2
-        },
-        "4": {
-          "isWorking": 2
-        }
-      },
-      "12": {
-        "31": {
-          "isWorking": 3
-        }
-      }
-    },
-    "2019": {
-      "1": {
-        "1": {
-          "isWorking": 2
-        },
-        "2": {
-          "isWorking": 2
-        },
-        "5": {
-          "isWorking": 2
-        },
-        "6": {
-          "isWorking": 2
-        },
-        "7": {
-          "isWorking": 2
-        },
-        "8": {
-          "isWorking": 2
-        },
-        "9": {
-          "isWorking": 2
-        },
-        "11": {
-          "isWorking": 0
-        }
-      },
-      "2": {
-        "23": {
-          "isWorking": 2
-        }
-      },
-      "3": {
-        "9": {
-          "isWorking": 2
-        }
-      },
-      "4": {
-        "30": {
-          "isWorking": 3
-        }
-      },
-      "5": {
-        "1": {
-          "isWorking": 2
-        },
-        "8": {
-          "isWorking": 3
-        },
-        "11": {
-          "isWorking": 2
-        }
-      },
-      "6": {
-        "11": {
-          "isWorking": 3
-        },
-        "12": {
-          "isWorking": 2
-        }
-      },
-      "11": {
-        "3": {
-          "isWorking": 3
-        },
-        "4": {
-          "isWorking": 2
-        }
-      },
-      "12": {
-        "31": {
-          "isWorking": 3
-        }
-      }
-    },
-    "2020": {
-      "1": {
-        "1": {
-          "isWorking": 2
-        },
-        "4": {
-          "isWorking": 2
-        },
-        "5": {
-          "isWorking": 2
-        },
-        "6": {
-          "isWorking": 2
-        },
-        "7": {
-          "isWorking": 2
-        },
-        "8": {
-          "isWorking": 2
-        }
-      },
-      "2": {
-        "22": {
-          "isWorking": 2
-        },
-        "23": {
-          "isWorking": 2
-        },
-        "27": {
-          "isWorking": 3
-        }
-      },
-      "3": {
-        "8": {
-          "isWorking": 2
-        }
-      },
-      "4": {
-        "30": {
-          "isWorking": 3
-        }
-      },
-      "5": {
-        "3": {
-          "isWorking": 2
-        },
-        "6": {
-          "11": {
-            "isWorking": 3
-          },
-          "14": {
-            "isWorking": 2
-          }
-        },
-        "11": {
-          "3": {
-            "isWorking": 3
-          },
-          "4": {
-            "isWorking": 2
-          },
-          "5": {
-            "isWorking": 2
-          },
-          "13": {
-            "isWorking": 0
-          }
-        },
-        "12": {
-          "31": {
-            "isWorking": 3
-          }
-        }
-      },
-      "2021": {
-        "1": {
-          "3": {
-            "isWorking": 2
-          },
-          "4": {
-            "isWorking": 2
-          },
-          "5": {
-            "isWorking": 2
-          },
-          "6": {
-            "isWorking": 2
-          },
-          "7": {
-            "isWorking": 2
-          },
-          "10": {
-            "isWorking": 2
-          }
-        },
-        "2": {
-          "22": {
-            "isWorking": 3
-          },
-          "23": {
-            "isWorking": 2
-          }
-        },
-        "3": {
-          "5": {
-            "isWorking": 3
-          },
-          "7": {
-            "isWorking": 2
-          },
-          "8": {
-            "isWorking": 2
-          }
-        },
-        "5": {
-          "2": {
-            "isWorking": 2
-          },
-          "9": {
-            "isWorking": 2
-          }
-        },
-        "6": {
-          "13": {
-            "isWorking": 2
-          }
-        },
-        "11": {
-          "3": {
-            "isWorking": 3
-          },
-          "4": {
-            "isWorking": 2
-          }
-        }
-      },
-      "2022": {
-        "1": {
-          "2": {
-            "isWorking": 2
-          },
-          "3": {
-            "isWorking": 2
-          },
-          "4": {
-            "isWorking": 2
-          },
-          "5": {
-            "isWorking": 2
-          },
-          "6": {
-            "isWorking": 2
-          },
-          "9": {
-            "isWorking": 2
-          }
-        },
-        "2": {
-          "22": {
-            "isWorking": 3
-          },
-          "23": {
-            "isWorking": 2
-          }
-        },
-        "3": {
-          "7": {
-            "isWorking": 3
-          },
-          "8": {
-            "isWorking": 2
-          },
-          "9": {
-            "isWorking": 2
-          },
-          "11": {
-            "isWorking": 0
-          }
-        },
-        "4": {
-          "28": {
-            "isWorking": 3
-          },
-          "30": {
-            "isWorking": 2
-          }
-        },
-        "5": {
-          "1": {
-            "isWorking": 2
-          },
-          "5": {
-            "isWorking": 0
-          },
-          "7": {
-            "isWorking": 2
-          },
-          "8": {
-            "isWorking": 2
-          },
-          "9": {
-            "isWorking": 2
-          },
-          "12": {
-            "isWorking": 3
-          }
-        },
-        "6": {
-          "9": {
-            "isWorking": 3
-          },
-          "11": {
-            "isWorking": 2
-          },
-          "12": {
-            "isWorking": 2
-          }
-        },
-        "11": {
-          "5": {
-            "isWorking": 2
-          }
-        },
-        "12": {
-          "29": {
-            "isWorking": 3
-          },
-          "31": {
-            "isWorking": 2
-          }
-        }
-      },
-      "2023": {
-        "1": {
-          "1": {
-            "isWorking": 2
-          },
-          "2": {
-            "isWorking": 2
-          },
-          "3": {
-            "isWorking": 2
-          },
-          "4": {
-            "isWorking": 2
-          },
-          "7": {
-            "isWorking": 2
-          },
-          "8": {
-            "isWorking": 2
-          }
-        },
-        "2": {
-          "22": {
-            "isWorking": 3
-          },
-          "23": {
-            "isWorking": 2
-          }
-        },
-        "3": {
-          "7": {
-            "isWorking": 3
-          },
-          "8": {
-            "isWorking": 2
-          }
-        },
-        "4": {
-          "30": {
-            "isWorking": 3
-          }
-        },
-        "5": {
-          "1": {
-            "isWorking": 2
-          },
-          "2": {
-            "isWorking": 2
-          },
-          "3": {
-            "isWorking": 2
-          },
-          "8": {
-            "isWorking": 3
-          },
-          "9": {
-            "isWorking": 2
-          },
-          "10": {
-            "isWorking": 2
-          }
-        },
-        "6": {
-          "11": {
-            "isWorking": 3
-          },
-          "12": {
-            "isWorking": 2
-          }
-        },
-        "11": {
-          "4": {
-            "isWorking": 2
-          }
-        },
-        "12": {
-          "31": {
-            "isWorking": 3
-          }
-        }
-      },
-      "2024": {
-        "1": {
-          "1": {
-            "isWorking": 2
-          },
-          "2": {
-            "isWorking": 2
-          },
-          "3": {
-            "isWorking": 2
-          },
-          "6": {
-            "isWorking": 2
-          },
-          "7": {
-            "isWorking": 2
-          },
-          "8": {
-            "isWorking": 2
-          }
-        },
-        "2": {
-          "24": {
-            "isWorking": 3
-          }
-        },
-        "3": {
-          "7": {
-            "isWorking": 3
-          },
-          "10": {
-            "isWorking": 2
-          }
-        },
-        "4": {
-          "30": {
-            "isWorking": 3
-          }
-        },
-        "5": {
-          "1": {
-            "isWorking": 2
-          },
-          "2": {
-            "isWorking": 2
-          },
-          "8": {
-            "isWorking": 3
-          },
-          "9": {
-            "isWorking": 2
-          }
-        },
-        "6": {
-          "11": {
-            "isWorking": 3
-          },
-          "12": {
-            "isWorking": 2
-          },
-          "13": {
-            "isWorking": 2
-          }
-        },
-        "11": {
-          "3": {
-            "isWorking": 2
-          },
-          "4": {
-            "isWorking": 2
-          }
-        },
-        "12": {
-          "31": {
-            "isWorking": 3
-          }
+          "holiday": "Новий Рік"
         }
       }
     }

@@ -1,6 +1,6 @@
 const bcryptjs = require("bcryptjs");
 const User = require('../models/User');
-const createCalendar = require("./calendar");
+const { createCalendar } = require("./calendar");
 const UserCalendar = require('../models/UserCalendar');
 const generateJWT = require("../helpers/jwt");
 

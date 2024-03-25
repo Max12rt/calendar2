@@ -11,6 +11,7 @@ const eventExistsById = async (req, res, next) => {
 
 const isEventOwner = async (req, res, next) => {
   const userId = req.id;
+  console.log(userId);
   if (!userId)
     return res.status(500).json({ok: false, msg: "Can't validate role if token is not validated."});
 

@@ -27,7 +27,6 @@ export const CalendarModal = () => {
     end: moment().minutes(0).seconds(0).add(2, "hours").toDate(),
     selectedCalendar: "",
     type: "",
-    // Додаткові поля для різних типів подій
     expectedResults: "", // Для типу "Meeting"
     interestArea: "",   // Для типу "Appointment"
     giftIdeas: "",      // Для типу "Birthday"
@@ -47,7 +46,6 @@ export const CalendarModal = () => {
         end: new Date(activeEvent.end),
         selectedCalendar: activeEvent.id_calendar,
         type: activeEvent.type,
-        // Заповнення додаткових полів для різних типів подій при редагуванні
         expectedResults: activeEvent.expectedResults || "",
         interestArea: activeEvent.interestArea || "",
         giftIdeas: activeEvent.giftIdeas || "",
@@ -61,7 +59,6 @@ export const CalendarModal = () => {
         end: moment().minutes(0).seconds(0).add(2, "hours").toDate(),
         selectedCalendar: "",
         type: "",
-        // Початкові значення додаткових полів
         expectedResults: "",
         interestArea: "",
         giftIdeas: "",

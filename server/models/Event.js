@@ -35,7 +35,7 @@ const EventSchema = Schema({
   },
   creator_user_id: {
     type: String,
-   // required: [true, "User is required"],
+    required: [true, "User is required"],
   },
 });
 

@@ -4,12 +4,12 @@ const Url = process.env.REACT_APP_API_URL;
 
 export const fetchNoToken = (endpoint, data, method = "GET") => {
   const url = `${Url}/${endpoint}`;
-  Swal.fire(url);
+  //Swal.fire(url);
   if (method === "GET") {
-    Swal.fire("GET");
+    //Swal.fire(url);
     return fetch(url);
   } else {
-    Swal.fire("Post");
+    //Swal.fire("Post");
     return fetch(url, {method,
       headers: {"Content-Type": "application/json",},
       body: JSON.stringify(data)});
